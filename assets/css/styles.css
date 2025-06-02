@@ -788,7 +788,7 @@ img {
 }
 
 /* Portrait phones and smaller */
-@media screen and (max-width: 394px) {
+@media screen and (max-width: 350px) {
   .card-image-slider {
     height: 200px; /* Keep the full height for good visibility */
   }
