@@ -329,6 +329,7 @@ img {
 
 .info .button{
   width: 100%;
+  background-color: var(--first-color);
 }
 
 .typing-container {
@@ -788,7 +789,7 @@ img {
 }
 
 /* Portrait phones and smaller */
-@media screen and (max-width: 354px) {
+@media screen and (max-width: 360px) {
   .card-image-slider {
     height: 220px; /* Keep the full height for good visibility */
   }
