@@ -25,8 +25,21 @@
       <link rel="stylesheet" href="assets/css/styles.css">
 
       <title>Saran S</title>
+      <style>
+        canvas#uniqueBgCanvas {
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background: #000;
+            width: 100%;
+            height: 100%;
+        }
+      </style>
    </head>
    <body>
+      <canvas id="uniqueBgCanvas"></canvas>
       <!--==================== NAV ====================-->
       <nav class="nav">
          <ul class="nav__list">
@@ -752,10 +765,125 @@
          <i class="ri-arrow-up-line"></i>
       </a>
 
+
+
+      <!--==========Background animation============-->
+      <script>
+        // Canvas points background
+        const uniqueCanvas = document.getElementById('uniqueBgCanvas');
+        const uniqueCtx = uniqueCanvas.getContext('2d');
+
+        // Set canvas size to match window
+        uniqueCanvas.width = window.innerWidth;
+        uniqueCanvas.height = window.innerHeight;
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            uniqueCanvas.width = window.innerWidth;
+            uniqueCanvas.height = window.innerHeight;
+        });
+
+        // Unique particle class to manage each point
+        class UniqueParticle {
+            constructor() {
+                this.uniqueX = Math.random() * uniqueCanvas.width;
+                this.uniqueY = Math.random() * uniqueCanvas.height;
+                this.uniqueSize = Math.random() * 1 + 1;
+                this.uniqueSpeedX = Math.random() * 2 - 1;
+                this.uniqueSpeedY = Math.random() * 2 - 1;
+            }
+
+            updatePosition() {
+                this.uniqueX += this.uniqueSpeedX;
+                this.uniqueY += this.uniqueSpeedY;
+
+                // Bounce off edges
+                if (this.uniqueX < 0 || this.uniqueX > uniqueCanvas.width) this.uniqueSpeedX *= -1;
+                if (this.uniqueY < 0 || this.uniqueY > uniqueCanvas.height) this.uniqueSpeedY *= -1;
+            }
+
+            drawParticle() {
+                uniqueCtx.fillStyle = 'red';
+                uniqueCtx.beginPath();
+                uniqueCtx.arc(this.uniqueX, this.uniqueY, this.uniqueSize, 0, Math.PI * 2);
+                uniqueCtx.fill();
+            }
+        }
+
+        // Create array of particles
+        const uniqueParticlesArray = [];
+        const uniqueNumberOfParticles = 100;
+        for (let i = 0; i < uniqueNumberOfParticles; i++) {
+            uniqueParticlesArray.push(new UniqueParticle());
+        }
+
+        // Function to connect particles
+        function connectUniqueParticles() {
+            const uniqueMaxDistance = 180;
+            for (let i = 0; i < uniqueParticlesArray.length; i++) {
+                for (let j = i + 1; j < uniqueParticlesArray.length; j++) {
+                    const dx = uniqueParticlesArray[i].uniqueX - uniqueParticlesArray[j].uniqueX;
+                    const dy = uniqueParticlesArray[i].uniqueY - uniqueParticlesArray[j].uniqueY;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < uniqueMaxDistance) {
+                        uniqueCtx.beginPath();
+                        uniqueCtx.strokeStyle = `rgba(255, 0, 0, ${1 - distance / uniqueMaxDistance})`;
+                        uniqueCtx.lineWidth = 1;
+                        uniqueCtx.moveTo(uniqueParticlesArray[i].uniqueX, uniqueParticlesArray[i].uniqueY);
+                        uniqueCtx.lineTo(uniqueParticlesArray[j].uniqueX, uniqueParticlesArray[j].uniqueY);
+                        uniqueCtx.stroke();
+                    }
+                }
+            }
+        }
+
+        // Animation loop
+        function animateUniqueBackground() {
+            uniqueCtx.clearRect(0, 0, uniqueCanvas.width, uniqueCanvas.height);
+            uniqueParticlesArray.forEach(particle => {
+                particle.updatePosition();
+                particle.drawParticle();
+            });
+            connectUniqueParticles();
+            requestAnimationFrame(animateUniqueBackground);
+        }
+
+        animateUniqueBackground();
+
+        // Contact form script with unique naming
+        const uniqueForm = document.getElementById("contact-form");
+        const uniqueMessage = document.getElementById("contact-message");
+
+        uniqueForm.addEventListener("submit", async function (e) {
+            e.preventDefault();
+
+            const uniqueFormData = new FormData(uniqueForm);
+
+            const res = await fetch(uniqueForm.action, {
+                method: "POST",
+                body: uniqueFormData,
+            });
+
+            if (res.ok) {
+                uniqueMessage.textContent = "Message sent successfully ✅";
+                uniqueMessage.style.color = "lime";
+                uniqueForm.reset();
+            } else {
+                uniqueMessage.textContent = "Message failed to send ❌";
+                uniqueMessage.style.color = "red";
+            }
+
+            setTimeout(() => {
+                uniqueMessage.textContent = "";
+            }, 5000);
+        });
+</script>
+
       <!--=============== SCROLLREVEAL ===============-->
       <script src="assets/js/scrollreveal.min.js"></script>
 
-      <!-- EmailJS CDN -->
+      EmailJS CDN
       <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
       <!-- Your main JS file -->
