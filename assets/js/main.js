@@ -8,11 +8,22 @@ const PUBLIC_KEY = 'Qrdfvv_uhhvGoIk1w'; // Replace with your real EmailJS Public
 const SERVICE_ID = 'service_p1aridk';    // Replace with your real EmailJS Service ID
 const TEMPLATE_ID = 'template_qayril8';  // Replace with your real EmailJS Template ID
 
-// Initialize EmailJS
-emailjs.init(PUBLIC_KEY);
+// Initialize EmailJS safely
+if (typeof emailjs !== 'undefined') {
+  emailjs.init(PUBLIC_KEY);
+} else {
+  console.warn('EmailJS SDK not loaded. Contact form submission will be disabled.');
+}
 
 const sendEmail = (e) => {
   e.preventDefault();
+
+  if (typeof emailjs === 'undefined') {
+    contactMessage.textContent = 'Email service is currently unavailable ❌';
+    contactMessage.style.color = 'red';
+    contactMessage.style.display = 'block';
+    return;
+  }
 
   // Show "Sending..." message
   contactMessage.textContent = 'Sending message... ⏳';
@@ -329,3 +340,47 @@ document.querySelectorAll('.card-image-slider').forEach((slider) => {
     });
   });
 }());
+
+/*=============== DARK LIGHT THEME ===============*/
+const themeButton = document.getElementById('theme-toggle');
+const themeIcon = document.getElementById('theme-icon');
+const lightTheme = 'light-theme';
+const iconTheme = 'ri-moon-line';
+
+// Previously selected theme (if user selected)
+const selectedTheme = localStorage.getItem('selected-theme');
+const selectedIcon = localStorage.getItem('selected-icon');
+
+// We obtain the current theme that the interface has by validating the light-theme class
+const getCurrentTheme = () => document.body.classList.contains(lightTheme) ? 'light' : 'dark';
+const getCurrentIcon = () => themeIcon.classList.contains(iconTheme) ? 'ri-moon-line' : 'ri-sun-line';
+
+// We validate if the user previously chose a theme
+if (selectedTheme) {
+  // If the validation is fulfilled, we ask what the issue was to know if we activated or deactivated the light theme
+  document.body.classList[selectedTheme === 'light' ? 'add' : 'remove'](lightTheme);
+  themeIcon.classList[selectedIcon === 'ri-moon-line' ? 'add' : 'remove'](iconTheme);
+  themeIcon.classList[selectedIcon === 'ri-sun-line' ? 'add' : 'remove']('ri-sun-line');
+}
+
+// Activate / deactivate the theme manually with the button
+if (themeButton) {
+  themeButton.addEventListener('click', (e) => {
+      e.preventDefault();
+      // Add or remove the light / icon theme
+      document.body.classList.toggle(lightTheme);
+      
+      // Toggle the icon between sun and moon
+      if (themeIcon.classList.contains('ri-sun-line')) {
+          themeIcon.classList.remove('ri-sun-line');
+          themeIcon.classList.add(iconTheme);
+      } else {
+          themeIcon.classList.remove(iconTheme);
+          themeIcon.classList.add('ri-sun-line');
+      }
+      
+      // We save the theme and the current icon that the user chose
+      localStorage.setItem('selected-theme', getCurrentTheme());
+      localStorage.setItem('selected-icon', getCurrentIcon());
+  });
+}
