@@ -146,26 +146,39 @@ console.log("Strings:", options.strings); // Log the strings
 var typed = new Typed("#typed-text", options);
 
 //wave effect for perfil__name//
-
 document.addEventListener('DOMContentLoaded', function () {
   const perfilName = document.querySelector('.perfil__name');
-  let text = perfilName.innerHTML;
-  perfilName.innerHTML = ''; // Clear the original text
+  if (!perfilName) return;
+  const originalHTML = perfilName.innerHTML.trim();
+  perfilName.innerHTML = ''; // Clear original
 
-  let spanText = '';
-  for (let i = 0; i < text.length; i++) {
-    if (text[i] === '<') { // Handle <br> tags
-      perfilName.innerHTML += spanText + text.substring(i, text.indexOf('>', i) + 1);
-      i = text.indexOf('>', i); // Move the index past the closing tag
-      spanText = ''; // Reset spanText
-    } else if (text[i] !== ' ' && text[i] !== '\n') { // Ignore spaces and newlines
-      spanText += '<span>' + text[i] + '</span>';
-    } else if (text[i] === ' ') {
-      perfilName.innerHTML += spanText + ' '; // Add single space
-      spanText = ''; // Reset spanText
+  // Split by line breaks to preserve rows
+  const lines = originalHTML.split(/<br\s*\/?>/i);
+  let spanHTML = '';
+  let globalCharIndex = 0;
+
+  lines.forEach((line, lineIndex) => {
+    // Split line into words
+    const words = line.trim().split(/\s+/);
+    const wordSpans = words.map(word => {
+      if (!word) return '';
+      // Wrap characters of the word inside spans with inline animation-delay
+      let charSpans = '';
+      for (let i = 0; i < word.length; i++) {
+        charSpans += `<span style="animation-delay: ${globalCharIndex * 0.1}s">${word[i]}</span>`;
+        globalCharIndex++;
+      }
+      // Wrap the word to prevent wrapping mid-word
+      return `<span class="perfil__word" style="white-space: nowrap; display: inline-block;">${charSpans}</span>`;
+    }).filter(w => w !== '').join(' ');
+
+    spanHTML += wordSpans;
+    if (lineIndex < lines.length - 1) {
+      spanHTML += '<br>';
     }
-  }
-  perfilName.innerHTML += spanText; // Add any remaining spanText
+  });
+
+  perfilName.innerHTML = spanHTML;
 });
 
 

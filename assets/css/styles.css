@@ -2081,110 +2081,262 @@ canvas#uniqueBgCanvas {
 }
 
 body.light-theme {
-  --white-color: hsl(0, 0%, 12%);
-  --black-color: hsl(0, 0%, 98%);
-  --text-color: hsl(var(--hue), 2%, 35%);
-  --body-color: hsl(var(--hue), 20%, 95%);
-  --container-color: rgba(255, 255, 255, 0.65);
+  --white-color: hsl(220, 15%, 15%);
+  --black-color: hsl(220, 20%, 98%);
+  --text-color: hsl(220, 10%, 40%);
+  --body-color: hsl(220, 20%, 95%);
+  --container-color: rgba(255, 255, 255, 0.45);
   --conic-gradient: conic-gradient(from 150deg at 50% 45%,
-      hsl(var(--hue), 70%, 88%) 0deg,
-      hsl(var(--hue), 70%, 95%) 140deg,
-      hsl(var(--hue), 70%, 88%) 360deg);
+      hsl(220, 25%, 88%) 0deg,
+      hsl(220, 25%, 95%) 140deg,
+      hsl(220, 25%, 88%) 360deg);
+}
+
+/* Glassmorphism Styles for Cards in Light Theme */
+body.light-theme .info,
+body.light-theme .about,
+body.light-theme .skills,
+body.light-theme .skills-card,
+body.light-theme .projects__card,
+body.light-theme .services__card,
+body.light-theme .experience__data {
+  background-color: rgba(255, 255, 255, 0.45) !important;
+  backdrop-filter: blur(14px) saturate(120%) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(120%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04) !important;
+  color: var(--white-color) !important;
+}
+
+/* Override the dark theme red glow shadow for light mode */
+body.light-theme .info,
+body.light-theme .about,
+body.light-theme .skills,
+body.light-theme .skills-card {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04) !important;
 }
 
 body.light-theme .perfil__data {
-  background-color: rgba(255, 255, 255, 0.7);
-  border-color: rgba(0, 0, 0, 0.15);
+  background-color: rgba(255, 255, 255, 0.45) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.04) !important;
 }
 
 body.light-theme .nav {
-  background-color: rgba(255, 255, 255, 0.65);
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  background-color: rgba(255, 255, 255, 0.45) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04) !important;
 }
 
 body.light-theme .nav__link {
-  color: hsl(0, 0%, 12%);
+  color: var(--white-color) !important;
 }
 
 body.light-theme .active-link {
-  color: #fff;
-  background-color: var(--first-color);
+  color: #fff !important;
+  background-color: var(--first-color) !important;
+  box-shadow: 0 4px 12px rgba(255, 0, 0, 0.2) !important;
 }
 
 body.light-theme .active-link:hover {
-  color: #fff;
+  color: #fff !important;
 }
 
 body.light-theme .skills__description {
-  color: var(--first-color);
-  background-color: rgba(255, 255, 255, 0.8);
+  color: var(--white-color) !important;
+  background-color: rgba(255, 255, 255, 0.5) !important;
+  border-color: rgba(239, 68, 68, 0.3) !important;
 }
 
 body.light-theme .progress-circle .bg {
-  stroke: rgba(0, 0, 0, 0.1);
+  stroke: rgba(0, 0, 0, 0.08) !important;
 }
 
 body.light-theme .skill_name {
-  color: hsl(0, 0%, 12%);
+  color: var(--white-color) !important;
 }
 
 body.light-theme .projects__skills {
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: rgba(0, 0, 0, 0.04) !important;
 }
 
 body.light-theme .projects__button {
-  color: hsl(0, 0%, 12%);
+  color: var(--white-color) !important;
 }
 
 body.light-theme .projects__button:hover {
-  color: var(--first-color);
+  color: var(--first-color) !important;
 }
 
 body.light-theme .contact__input {
-  background-color: rgba(255, 255, 255, 0.8);
-  color: hsl(0, 0%, 12%);
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: rgba(255, 255, 255, 0.45) !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  color: var(--white-color) !important;
 }
 
 body.light-theme .contact__input::placeholder {
-  color: hsl(0, 0%, 40%);
+  color: rgba(0, 0, 0, 0.4) !important;
 }
 
 body.light-theme .footer__logo {
-  color: hsl(0, 0%, 12%);
+  color: var(--white-color) !important;
 }
 
 body.light-theme .footer__link {
-  color: hsl(0, 0%, 12%);
+  color: var(--white-color) !important;
 }
 
 body.light-theme .footer__link:hover {
-  color: var(--first-color);
+  color: var(--first-color) !important;
 }
 
 body.light-theme .footer__social-link {
-  color: #fff;
+  color: #fff !important;
+  background-color: var(--first-color) !important;
 }
 
 body.light-theme .footer__social-link:hover {
-  background-color: hsl(0, 0%, 12%);
-  color: #fff;
+  background-color: var(--white-color) !important;
+  color: var(--first-color) !important;
+  border: 1px solid var(--first-color) !important;
 }
 
-/* Adjust navbar on very small screens to fit all icons including theme toggle */
-@media screen and (max-width: 400px) {
+/*=============== MOBILE & TABLET RESPONSIVENESS OVERRIDES ===============*/
+
+@media screen and (max-width: 1024px) {
+  /* Prevent horizontal page overflow */
+  .container {
+    margin-inline: 1rem !important;
+    width: auto !important;
+  }
+
+  /* Centered, Modern Floating Navbar */
   .nav {
-    width: 94%;
-    padding: 0.75rem 1rem;
-    bottom: 1rem;
+    width: 90% !important;
+    max-width: 440px !important;
+    left: 0 !important;
+    right: 0 !important;
+    margin-inline: auto !important;
+    padding: 0.65rem 1.25rem !important;
+    bottom: 1.25rem !important;
+    border-radius: 3rem !important;
   }
+
   .nav__list {
-    column-gap: 0.5rem;
-    justify-content: space-around;
+    column-gap: 0.25rem !important;
+    justify-content: space-around !important;
+    width: 100% !important;
   }
+
   .nav__link {
-    width: 2.2rem;
-    height: 2.2rem;
-    font-size: 1.25rem;
+    width: 2.3rem !important;
+    height: 2.3rem !important;
+    font-size: 1.3rem !important;
+  }
+
+  /* Responsive Grids for Projects and Services */
+  .projects__container,
+  .services__container {
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)) !important;
+    gap: 1.5rem !important;
+    max-width: 100% !important;
+  }
+
+  /* Stacking home page sections */
+  .home__container {
+    grid-template-columns: 1fr !important;
+    justify-content: center !important;
+    gap: 1.5rem !important;
+    max-width: 550px !important;
+    margin-inline: auto !important;
+  }
+
+  .perfil {
+    height: auto !important;
+  }
+
+  .info,
+  .about {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Custom skills card styling for mobile/tablet */
+  .skills-card {
+    background-color: var(--container-color);
+    padding: 2rem 1.5rem;
+    border-radius: 2rem;
+    box-shadow: 0 0 20px var(--first-color);
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Avoid horizontal overlapping in name greeting wave animation */
+  .perfil__name span {
+    animation: mobile-wave 1.5s ease-in-out infinite !important;
+    display: inline-block;
+    position: relative;
+  }
+}
+
+/* Extra small devices (portrait phones) */
+@media screen and (max-width: 360px) {
+  .nav {
+    width: 94% !important;
+    padding: 0.5rem 0.75rem !important;
+    bottom: 1rem !important;
+  }
+
+  .nav__link {
+    width: 2.1rem !important;
+    height: 2.1rem !important;
+    font-size: 1.15rem !important;
+  }
+}
+
+/* Single column timeline for tablets and mobiles */
+@media screen and (max-width: 1023px) {
+  .experience__container {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+    max-width: 100% !important;
+  }
+
+  .experience__container::before {
+    left: 12px !important;
+    width: 3px !important;
+    transform: translateX(-50%) !important;
+  }
+
+  .experience__card::before {
+    left: 12px !important;
+    width: 16px !important;
+    height: 16px !important;
+    margin-top: 0 !important;
+    top: 6px !important;
+    transform: translateX(-50%) !important;
+    box-shadow: 0 0 0 4px rgba(255, 0, 0, 0.3) !important;
+  }
+
+  .experience__card {
+    grid-template-columns: 1fr !important;
+    padding-left: 2.25rem !important;
+  }
+}
+
+/* Mobile-only wave animation without horizontal translation to prevent overlap */
+@keyframes mobile-wave {
+  0%,
+  40%,
+  100% {
+    transform: translateY(0);
+  }
+
+  20% {
+    transform: translateY(-8px);
   }
 }

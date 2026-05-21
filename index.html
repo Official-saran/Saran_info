@@ -184,7 +184,7 @@
       <section class="skill section" id="skills">
          <h2 class="section__title">My Skills</h2>
          <div class="skills__container container grid">
-            <article class>
+            <article class="skills-card">
                <div class="skills__items">
                   <div class="skills__item" data-progress="90">
                      <div class="progress-circle">
@@ -813,10 +813,30 @@
       uniqueCanvas.width = window.innerWidth;
       uniqueCanvas.height = window.innerHeight;
 
+      // Detect mobile/tablet width
+      let isMobileTablet = window.innerWidth < 1024;
+      let uniqueNumberOfParticles = isMobileTablet ? 30 : 100;
+      let speedScale = isMobileTablet ? 0.4 : 1.0;
+      let uniqueMaxDistance = isMobileTablet ? 110 : 180;
+
       // Handle window resize
       window.addEventListener('resize', () => {
          uniqueCanvas.width = window.innerWidth;
          uniqueCanvas.height = window.innerHeight;
+         
+         const wasMobileTablet = isMobileTablet;
+         isMobileTablet = window.innerWidth < 1024;
+         if (wasMobileTablet !== isMobileTablet) {
+            uniqueNumberOfParticles = isMobileTablet ? 30 : 100;
+            speedScale = isMobileTablet ? 0.4 : 1.0;
+            uniqueMaxDistance = isMobileTablet ? 110 : 180;
+            
+            // Re-initialize particles with the new configuration
+            uniqueParticlesArray.length = 0;
+            for (let i = 0; i < uniqueNumberOfParticles; i++) {
+               uniqueParticlesArray.push(new UniqueParticle());
+            }
+         }
       });
 
       // Unique particle class to manage each point
@@ -825,8 +845,9 @@
             this.uniqueX = Math.random() * uniqueCanvas.width;
             this.uniqueY = Math.random() * uniqueCanvas.height;
             this.uniqueSize = Math.random() * 1 + 1;
-            this.uniqueSpeedX = Math.random() * 2 - 1;
-            this.uniqueSpeedY = Math.random() * 2 - 1;
+            // Speed scaled down on mobile/tablet
+            this.uniqueSpeedX = (Math.random() * 2 - 1) * speedScale;
+            this.uniqueSpeedY = (Math.random() * 2 - 1) * speedScale;
          }
 
          updatePosition() {
@@ -839,7 +860,9 @@
          }
 
          drawParticle() {
-            uniqueCtx.fillStyle = 'red';
+            const isLightTheme = document.body.classList.contains('light-theme');
+            // Muted red color in light mode, bright red in dark mode
+            uniqueCtx.fillStyle = isLightTheme ? 'rgba(239, 68, 68, 0.35)' : 'red';
             uniqueCtx.beginPath();
             uniqueCtx.arc(this.uniqueX, this.uniqueY, this.uniqueSize, 0, Math.PI * 2);
             uniqueCtx.fill();
@@ -848,14 +871,16 @@
 
       // Create array of particles
       const uniqueParticlesArray = [];
-      const uniqueNumberOfParticles = 100;
       for (let i = 0; i < uniqueNumberOfParticles; i++) {
          uniqueParticlesArray.push(new UniqueParticle());
       }
 
       // Function to connect particles
       function connectUniqueParticles() {
-         const uniqueMaxDistance = 180;
+         const isLightTheme = document.body.classList.contains('light-theme');
+         // Mute the connecting line opacity in light mode to look cleaner
+         const lineAlphaScale = isLightTheme ? 0.15 : 1.0;
+
          for (let i = 0; i < uniqueParticlesArray.length; i++) {
             for (let j = i + 1; j < uniqueParticlesArray.length; j++) {
                const dx = uniqueParticlesArray[i].uniqueX - uniqueParticlesArray[j].uniqueX;
@@ -864,7 +889,8 @@
 
                if (distance < uniqueMaxDistance) {
                   uniqueCtx.beginPath();
-                  uniqueCtx.strokeStyle = `rgba(255, 0, 0, ${1 - distance / uniqueMaxDistance})`;
+                  const alpha = (1 - distance / uniqueMaxDistance) * lineAlphaScale;
+                  uniqueCtx.strokeStyle = `rgba(255, 0, 0, ${alpha})`;
                   uniqueCtx.lineWidth = 1;
                   uniqueCtx.moveTo(uniqueParticlesArray[i].uniqueX, uniqueParticlesArray[i].uniqueY);
                   uniqueCtx.lineTo(uniqueParticlesArray[j].uniqueX, uniqueParticlesArray[j].uniqueY);
